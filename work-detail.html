@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viola Totti - Opera Dettaglio</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        /* Header styles */
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 50px;
+            transition: all 0.4s ease;
+            background-color: rgba(249, 249, 249, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 400;
+            color: #333;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation styles */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            position: relative;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background-color: #333;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Gallery Detail Styles */
+        .gallery-detail {
+            padding: 150px 0 100px;
+        }
+        
+        /* Exhibition Room Style */
+        .exhibition-room {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .exhibition-header {
+            padding: 0 50px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .exhibition-title {
+            max-width: 60%;
+        }
+        
+        .exhibition-title h1 {
+            font-size: 42px;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .exhibition-meta {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .exhibition-meta span {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        
+        .exhibition-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+        }
+        
+        .exhibition-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.exhibition-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    border: none; /* Rimuove completamente il bordo */
+}
+
+.exhibition-nav-btn:hover {
+    opacity: 0.7; /* Un effetto hover più sottile */
+}
+
+.exhibition-nav-btn svg path {
+    transition: all 0.3s ease;
+}
+
+/* Manteniamo solo l'effetto di hover sull'icona */
+.exhibition-nav-btn:hover svg path {
+    stroke: #666; /* Un grigio più scuro al passaggio del mouse */
+}
+        
+        /* Main artwork display */
+        .artwork-showcase {
+            width: 100%;
+            height: 70vh;
+            position: relative;
+            background-color: #eee;
+            margin-bottom: 50px;
+            overflow: hidden;
+        }
+        
+        .artwork-main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .artwork-main img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+        
+        .artwork-main img.zoomed {
+            transform: scale(1.5);
+            cursor: zoom-out;
+        }
+        
+        /* Gallery wall for additional views */
+        .artwork-gallery {
+            padding: 0 50px;
+            margin-bottom: 50px;
+        }
+        
+        .gallery-wall {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .gallery-thumbnail {
+            cursor: pointer;
+            height: 0;
+            padding-bottom: 75%; /* 4:3 aspect ratio */
+            position: relative;
+            overflow: hidden;
+            background-color: #eee;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-thumbnail.active {
+            box-shadow: 0 0 0 3px #333;
+        }
+        
+        .gallery-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-thumbnail:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Artwork information section */
+        .artwork-info {
+            padding: 0 50px;
+            display: flex;
+            margin-bottom: 100px;
+        }
+        
+        .artwork-details {
+            flex: 1;
+            max-width: 60%;
+            padding-right: 50px;
+        }
+        
+        .details-title {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .details-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .artwork-materials {
+            font-style: italic;
+            color: #666;
+            margin: 20px 0;
+        }
+        
+        .artwork-dimensions {
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        .artwork-sidebar {
+            flex: 1;
+            max-width: 40%;
+            background-color: #f2f2f2;
+            padding: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        
+        .related-works {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .related-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .related-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .related-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .related-item-title {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        /* Navigation to other works */
+        .work-navigation {
+            padding: 50px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .nav-previous, .nav-next {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+        
+        .nav-previous .nav-link svg {
+            margin-right: 15px;
+        }
+        
+        .nav-next .nav-link svg {
+            margin-left: 15px;
+        }
+        
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+        
+        /* Back to gallery button */
+        .back-to-gallery {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+        
+        .gallery-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 1px solid #333;
+            font-size: 16px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-btn:hover {
+            background-color: #333;
+            color: #fff;
+            opacity: 1;
+        }
+        
+        /* Hamburger menu for mobile */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #333;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 9px;
+        }
+
+        .hamburger span:nth-child(4) {
+            top: 18px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .hamburger.active span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        /* Media queries for responsive design */
+        @media (max-width: 1024px) {
+            .exhibition-header {
+                flex-direction: column;
+            }
+            
+            .exhibition-title {
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+            
+            .artwork-info {
+                flex-direction: column;
+            }
+            
+            .artwork-details, .artwork-sidebar {
+                max-width: 100%;
+                padding-right: 0;
+            }
+            
+            .artwork-details {
+                margin-bottom: 50px;
+            }
+            
+            .gallery-wall {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(249, 249, 249, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+            
+            nav.active {
+                transform: translateX(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 20px 0;
+            }
+            
+            .gallery-detail {
+                padding: 120px 0 60px;
+            }
+            
+            .exhibition-header {
+                padding: 0 20px 30px;
+            }
+            
+            .exhibition-title h1 {
+                font-size: 32px;
+            }
+            
+            .artwork-showcase {
+                height: 50vh;
+            }
+            
+            .artwork-gallery {
+                padding: 0 20px;
+            }
+            
+            .gallery-wall {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .artwork-info {
+                padding: 0 20px;
+            }
+            
+            .work-navigation {
+                padding: 30px 20px;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery-wall {
+                grid-template-columns: 1fr;
+            }
+            
+            .related-works {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Footer styles */
+        footer {
+            padding: 50px;
+            background-color: #f2f2f2;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .brand-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.brand-link:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand-link">
+                <h1 class="brand">Viola Totti</h1>
+            </a>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="works.html" class="active">Works</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="gallery-detail">
+        <div class="exhibition-room">
+            <div class="exhibition-header">
+                <div class="exhibition-title">
+                    <h1 id="workTitle">Quattr'Opere</h1>
+                    <div class="exhibition-meta">
+                        <span id="workYear">2021-2023</span>
+                        <span id="workMedium">Olio su tela</span>
+                    </div>
+                    <div class="exhibition-description" id="workDescription">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+                
+                <div class="exhibition-navigation">
+                    <a href="#" class="exhibition-nav-btn" id="prevImageBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="exhibition-nav-btn" id="nextImageBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="artwork-showcase">
+                <div class="artwork-main">
+                    <img src="/api/placeholder/1200/800" alt="Quattr'Opere" id="mainArtworkImage">
+                </div>
+            </div>
+            
+            <div class="artwork-gallery">
+                <div class="gallery-wall">
+                    <div class="gallery-thumbnail active" data-image="/api/placeholder/1200/800">
+                        <img src="/api/placeholder/300/225" alt="Quattr'Opere View 1">
+                    </div>
+                    <div class="gallery-thumbnail" data-image="/api/placeholder/1200/900">
+                        <img src="/api/placeholder/300/225" alt="Quattr'Opere View 2">
+                    </div>
+                    <div class="gallery-thumbnail" data-image="/api/placeholder/1200/700">
+                        <img src="/api/placeholder/300/225" alt="Quattr'Opere Detail 1">
+                    </div>
+                    <div class="gallery-thumbnail" data-image="/api/placeholder/1000/800">
+                        <img src="/api/placeholder/300/225" alt="Quattr'Opere Detail 2">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="artwork-info">
+                <div class="artwork-details">
+                    <h2 class="details-title">About this work</h2>
+                    <p class="details-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    </p>
+                    <p class="details-text">
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                    
+                    <div class="artwork-materials">
+                        Oil on canvas
+                    </div>
+                    
+                    <div class="artwork-dimensions">
+                        60 × 80 cm (23.6 × 31.5 in)
+                    </div>
+                </div>
+                
+                <div class="artwork-sidebar">
+                    <h3 class="sidebar-title">Related Works</h3>
+                    <div class="related-works">
+                        <a href="work-detail.html?id=2" class="related-item">
+                            <img src="/api/placeholder/200/250" alt="Related Work 1">
+                            <div class="related-item-title">Quattr'Opere (dettaglio)</div>
+                        </a>
+                        <a href="work-detail.html?id=3" class="related-item">
+                            <img src="/api/placeholder/200/250" alt="Related Work 2">
+                            <div class="related-item-title">Quattr'Opere</div>
+                        </a>
+                        <a href="work-detail.html?id=4" class="related-item">
+                            <img src="/api/placeholder/200/250" alt="Related Work 3">
+                            <div class="related-item-title">Quattr'Opere</div>
+                        </a>
+                        <a href="work-detail.html?id=5" class="related-item">
+                            <img src="/api/placeholder/200/250" alt="Related Work 4">
+                            <div class="related-item-title">Quattr'Opere</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="work-navigation">
+                <div class="nav-previous">
+                    <a href="work-detail.html?id=5" class="nav-link" id="prevWorkLink">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 12H5" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 19L5 12L12 5" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Previous Work
+                    </a>
+                </div>
+                <div class="nav-next">
+                    <a href="work-detail.html?id=2" class="nav-link" id="nextWorkLink">
+                        Next Work
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 5L19 12L12 19" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="back-to-gallery">
+                <a href="works.html" class="gallery-btn">Back to Gallery</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy;2025 Viola Totti - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (nav.classList.contains('active') && 
+                !nav.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+        
+        // Gallery functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle gallery thumbnail clicks
+            const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+            const mainImage = document.getElementById('mainArtworkImage');
+            let currentImageIndex = 0;
+            
+            // Store images data
+            const images = [];
+            thumbnails.forEach(thumb => {
+                images.push({
+                    src: thumb.getAttribute('data-image'),
+                    alt: thumb.querySelector('img').getAttribute('alt')
+                });
+            });
+            
+            // Set active thumbnail and update main image
+            function setActiveImage(index) {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(thumb => thumb.classList.remove('active'));
+                
+                // Set active class on current thumbnail
+                thumbnails[index].classList.add('active');
+                
+                // Update main image
+                mainImage.src = images[index].src;
+                mainImage.alt = images[index].alt;
+                
+                // Update current index
+                currentImageIndex = index;
+            }
+            
+            // Add click event to thumbnails
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    setActiveImage(index);
+                });
+            });
+            
+            // Navigation buttons
+            const prevBtn = document.getElementById('prevImageBtn');
+            const nextBtn = document.getElementById('nextImageBtn');
+            
+            prevBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                let newIndex = currentImageIndex - 1;
+                if (newIndex < 0) newIndex = images.length - 1;
+                setActiveImage(newIndex);
+            });
+            
+            nextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                let newIndex = currentImageIndex + 1;
+                if (newIndex >= images.length) newIndex = 0;
+                setActiveImage(newIndex);
+            });
+            
+            // Load work details from URL parameter
+            function loadWorkDetails() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = parseInt(urlParams.get('id')) || 1;
+                
+                // Define works data (would be replaced with actual data)
+                const works = [
+                    {
+                        id: 1,
+                        title: "Quattr'Opere",
+                        year: "2021-2023",
+                        medium: "Olio su tela",
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        // Images would be added here
+                    },
+                    {
+                        id: 2,
+                        title: "Quattr'Opere (dettaglio)",
+                        year: "2021-2023",
+                        medium: "Olio su tela",
+                        description: "Un dettaglio ravvicinato dell'opera Quattr'Opere che rivela la texture e la tecnica pittorica.",
+                        // Images would be added here
+                    },
+                    {
+                        id: 3,
+                        title: "Quattr'Opere",
+                        year: "2021-2023",
+                        medium: "Olio su tela",
+                        description: "Terza variazione sul tema della serie Quattr'Opere, con un focus su combinazioni cromatiche diverse.",
+                        // Images would be added here
+                    },
+                    {
+                        id: 4,
+                        title: "Commission #1",
+                        year: "2021-2023",
+                        medium: "Olio su tela",
+                        description: "Opera commissionata che esplora temi e soggetti personalizzati secondo le richieste del committente.",
+                        // Images would be added here
+                    },
+                    {
+                        id: 5,
+                        title: "Quattr'Opere",
+                        year: "2022",
+                        medium: "Olio su tela",
+                        description: "Ultima variazione della serie Quattr'Opere, che conclude il ciclo artistico iniziato nel 2021.",
+                        // Images would be added here
+                    }
+                ];
+                
+                // Find the work by ID
+                const currentWork = works.find(work => work.id === id) || works[0];
+                
+                // Update the page content
+                document.getElementById('workTitle').textContent = currentWork.title;
+                document.getElementById('workYear').textContent = currentWork.year;
+                document.getElementById('workMedium').textContent = currentWork.medium;
+                document.getElementById('workDescription').textContent = currentWork.description;
+                
+                // Update navigation links
+                const prevWorkId = id > 1 ? id - 1 : works.length;
+                const nextWorkId = id < works.length ? id + 1 : 1;
+                
+                document.getElementById('prevWorkLink').href = `work-detail.html?id=${prevWorkId}`;
+                document.getElementById('nextWorkLink').href = `work-detail.html?id=${nextWorkId}`;
+            }
+            
+            // Initialize
+            loadWorkDetails();
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    prevBtn.click();
+                } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    nextBtn.click();
+                }
+            });
+            
+            // Add swipe gesture on mobile for main image
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            const artworkMain = document.querySelector('.artwork-main');
+            
+            artworkMain.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            artworkMain.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50; // Minimum swipe distance
+                
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swipe left (next image)
+                    nextBtn.click();
+                } else if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swipe right (previous image)
+                    prevBtn.click();
+                }
+            }
+            
+            // Image zoom on click
+            mainImage.addEventListener('click', function() {
+                if (this.classList.contains('zoomed')) {
+                    this.classList.remove('zoomed');
+                    this.style.cursor = 'zoom-in';
+                } else {
+                    this.classList.add('zoomed');
+                    this.style.cursor = 'zoom-out';
+                }
+            });
+            
+            // Preload images for smoother gallery experience
+            function preloadImages() {
+                images.forEach(image => {
+                    const img = new Image();
+                    img.src = image.src;
+                });
+            }
+            
+            // Call preload after a short delay
+            setTimeout(preloadImages, 1000);
+        });
+    </script>
+</body>
+</html>

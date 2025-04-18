@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viola Totti - Works</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        /* Header styles */
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 50px;
+            transition: all 0.4s ease;
+            background-color: rgba(249, 249, 249, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 400;
+            color: #333;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation styles */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            position: relative;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background-color: #333;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Gallery header */
+        .gallery-header {
+            padding: 150px 50px 80px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .gallery-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .gallery-description {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            padding: 0 50px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .filter-option {
+            padding: 15px 30px;
+            font-size: 16px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-option:hover {
+            color: #000;
+        }
+        
+        .filter-option.active {
+            font-weight: 500;
+        }
+        
+        .filter-option.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            bottom: -1px;
+            left: 0;
+        }
+
+        /* Gallery styles - Museum Layout */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            padding: 0 50px;
+            margin-bottom: 100px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            margin-bottom: 30px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        
+        /* Different sized items for visual interest */
+        .gallery-item.large {
+            grid-column: span 6;
+            grid-row: span 2;
+        }
+        
+        .gallery-item.medium {
+            grid-column: span 4;
+            grid-row: span 2;
+        }
+        
+        .gallery-item.small {
+            grid-column: span 3;
+            grid-row: span 1;
+        }
+        
+        .gallery-item.vertical {
+            grid-column: span 3;
+            grid-row: span 2;
+        }
+        
+        .gallery-item-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: block;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: #fff;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .gallery-title {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-year {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Museum wall effect */
+        .museum-wall {
+            padding: 30px 50px 100px;
+            background-color: #f0f0f0;
+            margin-top: 50px;
+        }
+        
+        .wall-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .wall-collection {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .wall-item {
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            transition: all 0.3s ease;
+            max-width: 400px;
+        }
+        
+        .wall-item:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        
+        .wall-item img {
+            width: 100%;
+            display: block;
+        }
+        
+        .wall-item-caption {
+            padding: 20px 0 10px;
+        }
+        
+        .wall-item-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .wall-item-year {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Footer styles */
+        footer {
+            padding: 50px;
+            background-color: #f2f2f2;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Hamburger menu for mobile */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #333;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 9px;
+        }
+
+        .hamburger span:nth-child(4) {
+            top: 18px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .hamburger.active span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Media queries for responsive design */
+        @media (max-width: 1024px) {
+            .gallery-container {
+                grid-template-columns: repeat(8, 1fr);
+            }
+            
+            .gallery-item.large {
+                grid-column: span 4;
+            }
+            
+            .gallery-item.medium {
+                grid-column: span 4;
+            }
+            
+            .gallery-item.small {
+                grid-column: span 2;
+            }
+            
+            .gallery-item.vertical {
+                grid-column: span 2;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(249, 249, 249, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+            
+            nav.active {
+                transform: translateX(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 20px 0;
+            }
+            
+            .gallery-header {
+                padding: 120px 20px 60px;
+            }
+            
+            .gallery-title {
+                font-size: 36px;
+            }
+            
+            .filter-bar {
+                padding: 0 20px;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+            
+            .filter-option {
+                padding: 15px 20px;
+                white-space: nowrap;
+            }
+            
+            .gallery-container {
+                grid-template-columns: repeat(4, 1fr);
+                padding: 0 20px;
+                gap: 10px;
+            }
+            
+            .gallery-item.large,
+            .gallery-item.medium {
+                grid-column: span 4;
+            }
+            
+            .gallery-item.small,
+            .gallery-item.vertical {
+                grid-column: span 2;
+            }
+            
+            .museum-wall {
+                padding: 30px 20px 80px;
+            }
+            
+            .wall-title {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item.large,
+            .gallery-item.medium,
+            .gallery-item.small,
+            .gallery-item.vertical {
+                grid-column: span 1;
+            }
+            
+            .wall-collection {
+                gap: 20px;
+            }
+            .brand-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.brand-link:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand-link">
+                <h1 class="brand">Viola Totti</h1>
+            </a>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="works.html" class="active">Works</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="gallery-header">
+        <h1 class="gallery-title">Paintings & Commissions</h1>
+        <p class="gallery-description">An exploration of color, form, and emotion through oil paintings. Dive into my gallery to discover works that blend traditional techniques with contemporary expression.</p>
+    </div>
+    
+    <div class="filter-bar">
+        <div class="filter-option active" data-filter="all">All Works</div>
+        <div class="filter-option" data-filter="paintings">Paintings</div>
+        <div class="filter-option" data-filter="commissions">Commissions</div>
+        <div class="filter-option" data-filter="2021-2023">2021-2023</div>
+    </div>
+    
+    <div class="gallery-container">
+        <div class="gallery-item large" data-category="paintings 2021-2023">
+            <a href="work-detail.html?id=1" class="gallery-item-inner">
+                <img src="/api/placeholder/800/600" alt="Quattr'Opere 1" class="gallery-image">
+                <div class="gallery-caption">
+                    <h3 class="gallery-title">Quattr'Opere</h3>
+                    <p class="gallery-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="gallery-item medium" data-category="paintings 2021-2023">
+            <a href="work-detail.html?id=2" class="gallery-item-inner">
+                <img src="/api/placeholder/600/800" alt="Quattr'Opere 2" class="gallery-image">
+                <div class="gallery-caption">
+                    <h3 class="gallery-title">Quattr'Opere (dettaglio)</h3>
+                    <p class="gallery-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="gallery-item small" data-category="paintings 2021-2023">
+            <a href="work-detail.html?id=3" class="gallery-item-inner">
+                <img src="/api/placeholder/400/300" alt="Quattr'Opere 3" class="gallery-image">
+                <div class="gallery-caption">
+                    <h3 class="gallery-title">Quattr'Opere</h3>
+                    <p class="gallery-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="gallery-item vertical" data-category="commissions 2021-2023">
+            <a href="work-detail.html?id=4" class="gallery-item-inner">
+                <img src="/api/placeholder/400/600" alt="Quattr'Opere 4" class="gallery-image">
+                <div class="gallery-caption">
+                    <h3 class="gallery-title">Commission #1</h3>
+                    <p class="gallery-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="gallery-item medium" data-category="paintings 2021-2023">
+            <a href="work-detail.html?id=5" class="gallery-item-inner">
+                <img src="/api/placeholder/600/450" alt="Quattr'Opere 5" class="gallery-image">
+                <div class="gallery-caption">
+                    <h3 class="gallery-title">Quattr'Opere</h3>
+                    <p class="gallery-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="gallery-item small" data-category="paintings 2021-2023">
+            <a href="work-detail.html?id=6" class="gallery-item-inner">
+                <img src="/api/placeholder/400/300" alt="Quattr'Opere 6" class="gallery-image">
+                <div class="gallery-caption">
+                    <h3 class="gallery-title">Quattr'Opere</h3>
+                    <p class="gallery-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="gallery-item large" data-category="commissions 2021-2023">
+            <a href="work-detail.html?id=7" class="gallery-item-inner">
+                <img src="/api/placeholder/800/600" alt="Commission" class="gallery-image">
+                <div class="gallery-caption">
+                    <h3 class="gallery-title">Commission #2</h3>
+                    <p class="gallery-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <section class="museum-wall">
+        <h2 class="wall-title">Featured Collection</h2>
+        
+        <div class="wall-collection">
+            <a href="work-detail.html?id=1" class="wall-item">
+                <img src="/api/placeholder/400/500" alt="Quattr'Opere 1">
+                <div class="wall-item-caption">
+                    <h3 class="wall-item-title">Quattr'Opere</h3>
+                    <p class="wall-item-year">2021-2023</p>
+                </div>
+            </a>
+            
+            <a href="work-detail.html?id=2" class="wall-item">
+                <img src="/api/placeholder/400/500" alt="Quattr'Opere 2">
+                <div class="wall-item-caption">
+                    <h3 class="wall-item-title">Quattr'Opere (dettaglio)</h3>
+                    <p class="wall-item-year">2021-2023</p>
+                </div>
+            </a>
+            
+            <a href="work-detail.html?id=3" class="wall-item">
+                <img src="/api/placeholder/400/500" alt="Quattr'Opere 3">
+                <div class="wall-item-caption">
+                    <h3 class="wall-item-title">Quattr'Opere</h3>
+                    <p class="wall-item-year">2021-2023</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy;2025 Viola Totti - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (nav.classList.contains('active') && 
+                !nav.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+        
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Get filter value
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // Filter gallery items
+                    galleryItems.forEach(item => {
+                        if (filterValue === 'all') {
+                            item.style.display = 'block';
+                        } else {
+                            const categories = item.getAttribute('data-category').split(' ');
+                            if (categories.includes(filterValue)) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // Smooth scroll on anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

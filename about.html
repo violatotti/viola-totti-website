@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viola Totti - About</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles */
+        header {
+            padding: 30px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .brand-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+        }
+
+        .brand {
+            font-size: 32px;
+            font-weight: 400;
+            color: #333;
+        }
+
+        .sub-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Navigation styles */
+        nav {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            position: relative;
+            font-size: 16px;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background-color: #333;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a.active:after,
+        nav ul li a:hover:after {
+            width: 20px;
+        }
+
+        /* About Page Styles */
+        .about-section {
+            display: flex;
+            padding: 180px 0 80px; /* Aumentato da 120px a 180px */
+            min-height: 100vh;
+        }
+
+        .about-text {
+            width: 50%;
+            padding-right: 60px;
+        }
+
+        .about-image {
+            width: 50%;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-paragraph {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        /* Expertise Section */
+        .expertise-section {
+            padding: 60px 0;
+            background-color: #f9f9f9;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .expertise-item {
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .expertise-item h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .expertise-item p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Education & Experience Section */
+        .timeline-section {
+            padding: 80px 0;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100%;
+            background-color: #ddd;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+
+        .timeline-item-content {
+            width: 45%;
+            background-color: #fff;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-item-content {
+            margin-left: auto;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-item-content:before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            border-top: 10px solid transparent;
+            border-right: 10px solid #fff;
+            border-bottom: 10px solid transparent;
+        }
+
+        .timeline-item:nth-child(even) .timeline-item-content:before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            border-top: 10px solid transparent;
+            border-left: 10px solid #fff;
+            border-bottom: 10px solid transparent;
+        }
+
+        .timeline-date {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .timeline-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .timeline-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Footer styles */
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+
+        /* Hamburger menu per mobile - stile aggiornato */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #333;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 9px;
+        }
+
+        .hamburger span:nth-child(4) {
+            top: 18px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .hamburger.active span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Media queries for responsive design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: absolute;
+                top: 35px;
+                right: 20px;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(255, 255, 255, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+            
+            nav.active {
+                transform: translateX(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            nav ul li {
+                margin: 20px 0;
+                padding: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 10px 0;
+            }
+
+            .about-section {
+                flex-direction: column;
+                padding: 150px 0 50px; /* Aumentato anche qui per mobile */
+            }
+
+            .about-text, .about-image {
+                width: 100%;
+                padding-right: 0;
+            }
+
+            .about-text {
+                margin-bottom: 40px;
+            }
+
+            .expertise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline:before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+            }
+
+            .timeline-item-content {
+                width: 100%;
+                margin-left: 60px !important;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-item-content:before,
+            .timeline-item:nth-child(even) .timeline-item-content:before {
+                left: -10px;
+                right: auto;
+                border-top: 10px solid transparent;
+                border-right: 10px solid #fff;
+                border-bottom: 10px solid transparent;
+                border-left: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand-link">
+                <h1 class="brand">Viola Totti</h1>
+                <div class="sub-title">ABOUT</div>
+            </a>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="works.html">Works</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="about-section">
+            <div class="container">
+                <div class="about-text">
+                    <p class="about-paragraph">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                    <p class="about-paragraph">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                    <p class="about-paragraph">
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <p class="about-paragraph">
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="/api/placeholder/800/1000" alt="Viola Totti">
+                </div>
+            </div>
+        </section>
+
+        <section class="expertise-section">
+            <div class="container">
+                <h2 class="section-title">My Expertise</h2>
+                <div class="expertise-grid">
+                    <div class="expertise-item">
+                        <h3>Oil Painting</h3>
+                        <p>Creating expressive works with traditional oil painting techniques on canvas, focusing on portraiture and figurative art with contemporary sensibilities.</p>
+                    </div>
+                    <div class="expertise-item">
+                        <h3>Mixed Media</h3>
+                        <p>Exploring the boundaries between different materials and techniques, combining traditional painting methods with contemporary approaches.</p>
+                    </div>
+                    <div class="expertise-item">
+                        <h3>Portrait Commissions</h3>
+                        <p>Specialized in creating personalized portrait commissions, capturing the essence and character of subjects with sensitivity and artistic vision.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-section">
+            <div class="container">
+                <h2 class="section-title">Education & Experience</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-item-content">
+                            <div class="timeline-date">2018 - Present</div>
+                            <h3 class="timeline-title">Professional Artist</h3>
+                            <div class="timeline-subtitle">Independent Studio, Milan</div>
+                            <p class="timeline-text">Working as a professional artist, creating original paintings and accepting commissioned works. Exhibiting in several galleries across Italy and Europe.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-item-content">
+                            <div class="timeline-date">2017 - 2018</div>
+                            <h3 class="timeline-title">Artist Residency</h3>
+                            <div class="timeline-subtitle">Florence Art Academy</div>
+                            <p class="timeline-text">Selected for prestigious year-long artist residency program, focusing on developing personal style and artistic voice.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-item-content">
+                            <div class="timeline-date">2014 - 2017</div>
+                            <h3 class="timeline-title">Master of Fine Arts</h3>
+                            <div class="timeline-subtitle">Accademia di Belle Arti di Brera, Milan</div>
+                            <p class="timeline-text">Specialized in painting techniques with focus on contemporary approaches to traditional methods. Graduated with honors.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-item-content">
+                            <div class="timeline-date">2010 - 2014</div>
+                            <h3 class="timeline-title">Bachelor of Fine Arts</h3>
+                            <div class="timeline-subtitle">University of Bologna</div>
+                            <p class="timeline-text">Fundamental studies in drawing, color theory, art history, and various painting techniques. First exhibition in university gallery.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy;2025 Viola Totti - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (nav.classList.contains('active') && 
+                !nav.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+        
+        // Make logo clickable
+        document.addEventListener('DOMContentLoaded', function() {
+            const brandLink = document.querySelector('.brand-link');
+            if (brandLink) {
+                brandLink.addEventListener('click', function(e) {
+                    window.location.href = 'index.html';
+                });
+            }
+            
+            // Animate timeline items on scroll
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            function checkScroll() {
+                timelineItems.forEach(item => {
+                    const itemPosition = item.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (itemPosition < screenPosition) {
+                        item.style.opacity = 1;
+                        item.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Set initial state for timeline items
+            timelineItems.forEach(item => {
+                item.style.opacity = 0;
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'all 0.5s ease';
+            });
+            
+            // Check scroll position on load and scroll
+            window.addEventListener('scroll', checkScroll);
+            checkScroll();
+        });
+    </script>
+</body>
+</html>
